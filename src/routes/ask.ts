@@ -1,9 +1,9 @@
 import { Hono } from 'hono';
 import { arrayBufferToBase64 } from '../utils/arrayBufferToBase64';
-
+///
 const ask = new Hono();
 
-const defaultPrompt = "あなたはツンデレなチャットボットです。１００文字以内で回答してください。";
+// const defaultPrompt = "あなたはツンデレなチャットボットです。１００文字以内で回答してください。";
 
 ask.post('/ask', async (c) => {
   try {
@@ -21,9 +21,9 @@ ask.post('/ask', async (c) => {
 
     const chatApiUrl = 'http://localhost:11434/api/chat';
     const chatPayload = {
-      model: "hf.co/elyza/Llama-3-ELYZA-JP-8B-GGUF:latest",
+      model: "tundere-ai:Q4_K_M",
       stream: false,
-      messages: [{ role: "system", content: defaultPrompt }, ...inputMessages]
+      messages: [...inputMessages]
     };
 
     console.log("チャット API にリクエスト送信中...");
@@ -63,8 +63,8 @@ ask.post('/ask', async (c) => {
         1,
         0.33
       ]
-    };    
-    
+    };
+
 
     console.log("音声合成 API にリクエスト送信中...");
     const ttsRes = await fetch(ttsApiUrl, {
@@ -111,7 +111,7 @@ ask.post('/ask', async (c) => {
       text: updatedMessages,
       audio: `data:audio/wav;base64,${audioBase64}`
     });
-    
+
   } catch (error: any) {
     console.error("内部エラーが発生しました:", error);
     return c.json({ type: 'failure', error: '内部エラーが発生しました', details: error.message }, 500);
