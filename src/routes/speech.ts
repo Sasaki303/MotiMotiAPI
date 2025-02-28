@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { arrayBufferToBase64 } from '../utils/arrayBufferToBase64';
+///テキストで受け取って喋らせるルート
 
 const speech = new Hono();
 
